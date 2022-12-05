@@ -18,3 +18,9 @@ html {
 #title-link:hover {
     text-decoration: underline;
 }
+
+.logo-image {
+    width: 100%;
+    height: 40px;
+    max-width: 100px;
+}
