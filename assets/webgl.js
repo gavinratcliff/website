@@ -1,0 +1,15 @@
+const vsSource=`
+    attribute vec4 aVertexPosition;
+
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+
+    void main(void) {
+      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    }
+  `,fsSource=`
+    void main(void) {
+      gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+  `;let cubeRotation=0,deltaTime=0;function initIndexBuffer(e){let t=e.createBuffer();return e.bindBuffer(e.ELEMENT_ARRAY_BUFFER,t),e.bufferData(e.ELEMENT_ARRAY_BUFFER,new Uint16Array([0,1,2,0,2,3,4,5,6,4,6,7,8,9,10,8,10,11,12,13,14,12,14,15,16,17,18,16,18,19,20,21,22,20,22,23]),e.STATIC_DRAW),t}function initShaderProgram(e,t,r){let i=loadShader(e,e.VERTEX_SHADER,t),o=loadShader(e,e.FRAGMENT_SHADER,r),n=e.createProgram();return(e.attachShader(n,i),e.attachShader(n,o),e.linkProgram(n),e.getProgramParameter(n,e.LINK_STATUS))?n:(alert(`Unable to initialize the shader program: ${e.getProgramInfoLog(n)}`),null)}function loadShader(e,t,r){let i=e.createShader(t);return(e.shaderSource(i,r),e.compileShader(i),e.getShaderParameter(i,e.COMPILE_STATUS))?i:(alert(`An error occurred compiling the shaders: ${e.getShaderInfoLog(i)}`),e.deleteShader(i),null)}function initBuffers(e){let t=initPositionBuffer(e),r=initIndexBuffer(e);return{position:t,indices:r}}function drawScene(e,t,r,i){e.clearColor(1,1,1,1),e.clearDepth(1),e.enable(e.DEPTH_TEST),e.depthFunc(e.LEQUAL),e.clear(e.COLOR_BUFFER_BIT|e.DEPTH_BUFFER_BIT);let o=e.canvas.clientWidth/e.canvas.clientHeight,n=mat4.create();mat4.perspective(n,45*Math.PI/180,o,.1,100);let a=mat4.create();mat4.translate(a,a,[-0,0,-6]),mat4.rotate(a,a,i,[0,0,1]),mat4.rotate(a,a,.3*i,[1,0,0]),setPositionAttribute(e,r,t),e.bindBuffer(e.ELEMENT_ARRAY_BUFFER,r.indices),e.useProgram(t.program),e.uniformMatrix4fv(t.uniformLocations.projectionMatrix,!1,n),e.uniformMatrix4fv(t.uniformLocations.modelViewMatrix,!1,a);{let _=e.UNSIGNED_SHORT;e.drawElements(e.LINES,36,_,0)}}function setPositionAttribute(e,t,r){let i=e.FLOAT;e.bindBuffer(e.ARRAY_BUFFER,t.position),e.vertexAttribPointer(r.attribLocations.vertexPosition,3,i,!1,0,0),e.enableVertexAttribArray(r.attribLocations.vertexPosition)}function initPositionBuffer(e){let t=e.createBuffer();return e.bindBuffer(e.ARRAY_BUFFER,t),e.bufferData(e.ARRAY_BUFFER,new Float32Array([-1,-1,1,1,-1,1,1,1,1,-1,1,1,-1,-1,-1,-1,1,-1,1,1,-1,1,-1,-1,-1,1,-1,-1,1,1,1,1,1,1,1,-1,-1,-1,-1,1,-1,-1,1,-1,1,-1,-1,1,1,-1,-1,1,1,-1,1,1,1,1,-1,1,-1,-1,-1,-1,-1,1,-1,1,1,-1,1,-1,]),e.STATIC_DRAW),t}document.addEventListener("DOMContentLoaded",function(){let e=document.querySelector("#glcanvas"),t=e.getContext("webgl");if(null===t){alert("Unable to initialize WebGL. Your browser or machine may not support it.");return}let r=initShaderProgram(t,vsSource,fsSource),i={program:r,attribLocations:{vertexPosition:t.getAttribLocation(r,"aVertexPosition")},uniformLocations:{projectionMatrix:t.getUniformLocation(r,"uProjectionMatrix"),modelViewMatrix:t.getUniformLocation(r,"uModelViewMatrix")}},o=initBuffers(t),n=0;function a(e){e*=.001,deltaTime=e-n,n=e,drawScene(t,i,o,cubeRotation),cubeRotation+=deltaTime,requestAnimationFrame(a)}requestAnimationFrame(a)},!1);
