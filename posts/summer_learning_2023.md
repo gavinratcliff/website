@@ -1,7 +1,3 @@
-2023: statistics and applied deep learning
-==============
-***June 24th, 2023***
-
 I finished up a three week stay on a rural rice farm in Japan, and
 I came home with the goal of doing AI/ML research in college.
 The start of undergrad looms in mid-August, so I have around a month and

@@ -1,7 +1,3 @@
-How my website works
-==============
-***August 11th, 2024***
-
 This is a short rundown of how I implemented my website (mostly so I can remember).
 
 ### Frontend
