@@ -2,7 +2,7 @@ import commonmark
 import os
 import shutil
 
-assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js"]
+assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js", "resume.pdf"]
 
 def copy_assets():
     for asset in assets_to_copy:
