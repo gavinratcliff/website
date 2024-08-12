@@ -22,5 +22,5 @@ It's not perfect, though, and at some point, I hope to implement:
 
 - An RSS feed for sending out my posts.
 - Live-reloading for editing the website without having to regenerate.
-- Some code to generate a random 3D polyhedron each time the website is opened.
+- Some code to generate a random 3D polyhedron each time the website is opened. (done!)
 - An active reading log with notes on books I like.
