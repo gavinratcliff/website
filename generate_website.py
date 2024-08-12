@@ -83,6 +83,7 @@ def generate_post_markdown(post_path, created, edited):
 
 def render_posts(posts: list[tuple[str, date, date]]):
     posts.sort(key = lambda x: x[1])
+    post = posts.reverse()
     for post_file, created, edited in posts:
         print(post_file)
         text = generate_post_markdown(post_file, created, edited)
