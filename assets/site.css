@@ -1,8 +1,8 @@
 html {
     max-width: 70ch;
-    font-family: Helvetica, monospace;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: 400;
-    font-size: .9rem;
+    font-size: 1rem;
 
     /* larger spacing on larger screens, very small spacing on tiny screens */
     padding: calc(1vmin + .5rem);
