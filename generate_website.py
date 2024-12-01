@@ -4,7 +4,7 @@ import shutil
 from datetime import datetime, date
 
 # Simple static assets that the generated site needs.
-assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js", "resume.pdf"]
+assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js", "resume.pdf", "cooking.html"]
 
 def copy_assets():
     for asset in assets_to_copy:
@@ -24,6 +24,7 @@ def replace_tag(tag_name: str, template: str, contents: str) -> str:
 
 # Footer and header templates
 post_header = read_file("assets/post_header.html")
+blog_page_header = read_file("assets/blog_page_header.html")
 post_footer = read_file("assets/post_footer.html")
 
 # Post table handling
@@ -107,6 +108,8 @@ def render_posts(posts: list[tuple[str, date, date]]):
     posts.sort(key = lambda x: x[1])
     posts.reverse()
 
+    post_htmls = []
+
     for post_file, created, edited in posts:
         # Get full markdown
         text = generate_post_markdown(post_file, created, edited)
@@ -115,13 +118,21 @@ def render_posts(posts: list[tuple[str, date, date]]):
         parser = commonmark.Parser()
         ast = parser.parse(text)
         renderer = commonmark.HtmlRenderer()
-        html = post_header + renderer.render(ast) + post_footer
+        basic_html = renderer.render(ast)
 
         # Make the title a link back to my homepage.
-        html = html.replace("<h1>", "<h1><a id=\"title-link\" href=\"index.html\">").replace("</h1>", "</a></h1>")
+        html = post_header + basic_html.replace("<h1>", "<h1><a id=\"title-link\" href=\"index.html\">Blog - ").replace("</h1>", "</a></h1>") + post_footer
+
+        url = post_file.replace(".md", ".html")
+
+        html2 = basic_html.replace("<h1>", f"<h2><a id=\"title-link\" href=\"{url}\">").replace("</h2>", "</a></h2>")
 
         # Place this in the generated folder.
         write_file("generated/" + post_file.replace(".md", ".html"), html)
+
+        post_htmls.append(html2)
+    
+    return post_htmls 
 
 def post_path_to_title(post_path):
     title = post_path.replace("_", " ").replace("posts/", "")
@@ -131,13 +142,18 @@ def post_path_to_title(post_path):
 def generate_post_list(posts):
     return "".join([f'<li><a href="{post_file.replace(".md", ".html")}">{post_path_to_title(post_file)}</a>{" - " + created.strftime("%B, %Y")}</li>' for post_file, created, edited in posts])
 
+def generate_blog_page(post_htmls):
+    full_html = blog_page_header + '\n'.join(post_htmls) + post_footer
+    write_file("generated/" + 'blog.html', full_html)
+
 # Generates the full index.
 def generate_index():
     index_template = read_file("assets/index_template.html")
 
     posts = get_posts()
 
-    render_posts(posts)
+    post_htmls = render_posts(posts)
+    generate_blog_page(post_htmls)
 
     posts_list = generate_post_list(posts)
 
