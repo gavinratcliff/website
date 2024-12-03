@@ -125,7 +125,7 @@ def render_posts(posts: list[tuple[str, date, date]]):
 
         url = post_file.replace(".md", ".html")
 
-        html2 = basic_html.replace("<h1>", f"<h2><a id=\"title-link\" href=\"{url}\">").replace("</h2>", "</a></h2>")
+        html2 = basic_html.replace("<h1>", f"<h2><a id=\"title-link\" href=\"{url}\">").replace("</h1>", "</a></h2>")
 
         # Place this in the generated folder.
         write_file("generated/" + post_file.replace(".md", ".html"), html)
