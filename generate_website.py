@@ -121,6 +121,8 @@ def render_posts(posts: list[tuple[str, date, date]]):
         renderer = commonmark.HtmlRenderer()
         basic_html = renderer.render(ast)
 
+        basic_html = basic_html.replace('<a', '<a id="index-link"')
+
         # Make the title a link back to my homepage.
         html = post_header + basic_html.replace("<h1>", "<h2>").replace("</h1>", "</h2>") + post_footer
 
@@ -141,7 +143,7 @@ def post_path_to_title(post_path):
 
 # Generates the HTML for a post table of contents
 def generate_post_list(posts):
-    return "".join([f'<li><a href="{post_file.replace(".md", ".html")}">{post_path_to_title(post_file)}</a>{" - " + created.strftime("%B, %Y")}</li>' for post_file, created, edited in posts])
+    return "".join([f'<li><a id="index-link" href="{post_file.replace(".md", ".html")}">{post_path_to_title(post_file)}</a>{" - " + created.strftime("%B, %Y")}</li>' for post_file, created, edited in posts])
 
 def generate_blog_page(post_htmls):
     full_html = blog_page_header + '\n'.join(post_htmls) + post_footer
@@ -170,7 +172,7 @@ def generate_recipes_page():
 
         index.append(recipe_title)
 
-    index = '<ul>' + ''.join([f'<li><a href=#{title}>{title}</a></li>' for title in index]) + '</ul>'
+    index = '<ul>' + ''.join([f'<li><a id="index-link" href=#{title}>{title}</a></li>' for title in index]) + '</ul>'
 
     html_all = cooking_page_header + index + html_all + post_footer
     

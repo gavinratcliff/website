@@ -78,3 +78,29 @@ h5 {
 .tab.active {
     color: #333;
 }
+
+#index-link {
+    text-decoration: none;
+    /* Inherits text color from parent element */
+    position: relative;
+    color: #0000EE
+}
+
+#index-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    /* Adjust thickness of the underline */
+    background: currentColor;
+    /* Match the text color */
+    transition: width 0.3s ease;
+    /* Smooth sliding effect */
+}
+
+#index-link:hover::after {
+    width: 100%;
+    /* Full-width underline on hover */
+}
