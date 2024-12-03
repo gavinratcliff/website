@@ -122,7 +122,7 @@ def render_posts(posts: list[tuple[str, date, date]]):
         basic_html = renderer.render(ast)
 
         # Make the title a link back to my homepage.
-        html = post_header + basic_html.replace("<h1>", "<h1><a id=\"title-link\" href=\"index.html\">Blog - ").replace("</h1>", "</a></h1>") + post_footer
+        html = post_header + basic_html.replace("<h1>", "<h2>").replace("</h1>", "</h2>") + post_footer
 
         url = post_file.replace(".md", ".html")
 
