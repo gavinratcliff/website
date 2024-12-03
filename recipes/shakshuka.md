@@ -15,7 +15,7 @@ All the ingredients and amounts are really flexible, I make it different every t
 * 1tsp cumin
 * 1tbsp olive oil
 * Salt
-* Chopped parsely
+* Chopped parsley
 
 ## Steps
 
@@ -25,4 +25,4 @@ All the ingredients and amounts are really flexible, I make it different every t
 * Add in tomatoes and combine, bring to a simmer
 * Cook for 15 minutes or so stirring until its thick, tasting and salting constantly
 * Make dips in the sauce and crack eggs, simmer for another 10 minutes.
-* Remove from heat, garnish with parsely and serve.
+* Remove from heat, garnish with parsley and feta and serve.
