@@ -4,7 +4,7 @@ import shutil
 from datetime import datetime, date
 
 # Simple static assets that the generated site needs.
-assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js", "resume.pdf", "cooking.html"]
+assets_to_copy = ["site.css", "debian-button.jpg", "webgl.js", "resume.pdf"]
 
 def copy_assets():
     for asset in assets_to_copy:
@@ -25,6 +25,7 @@ def replace_tag(tag_name: str, template: str, contents: str) -> str:
 # Footer and header templates
 post_header = read_file("assets/post_header.html")
 blog_page_header = read_file("assets/blog_page_header.html")
+cooking_page_header = read_file("assets/cooking_page_header.html")
 post_footer = read_file("assets/post_footer.html")
 
 # Post table handling
@@ -146,6 +147,35 @@ def generate_blog_page(post_htmls):
     full_html = blog_page_header + '\n'.join(post_htmls) + post_footer
     write_file("generated/" + 'blog.html', full_html)
 
+def generate_recipe(recipe_path, title):
+    recipe_md = read_file(recipe_path)
+
+    parser = commonmark.Parser()
+    ast = parser.parse(recipe_md)
+    renderer = commonmark.HtmlRenderer()
+    recipe_html = renderer.render(ast)
+
+    recipe_html = recipe_html.replace('<h2>', '<h3>').replace('</h2>', '</h3>')
+    recipe_html = recipe_html.replace('<h1>', f'<h2 id={title}>').replace('</h1>', '</h2>')
+    
+    return recipe_html
+
+def generate_recipes_page():
+    html_all = ""
+    index = []
+    for recipe in os.listdir('recipes/'):
+        recipe_title = recipe.split('.')[0].replace('_', ' ').title()
+
+        html_all += generate_recipe('recipes/' + recipe, recipe_title)
+
+        index.append(recipe_title)
+
+    index = '<ul>' + ''.join([f'<li><a href=#{title}>{title}</a></li>' for title in index]) + '</ul>'
+
+    html_all = cooking_page_header + index + html_all + post_footer
+    
+    write_file("generated/cooking.html", html_all)
+
 # Generates the full index.
 def generate_index():
     index_template = read_file("assets/index_template.html")
@@ -156,6 +186,8 @@ def generate_index():
     generate_blog_page(post_htmls)
 
     posts_list = generate_post_list(posts)
+
+    generate_recipes_page()
 
     index = replace_tag("posts", index_template, posts_list)
     write_file("generated/index.html", index)
