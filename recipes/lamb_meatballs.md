@@ -1,7 +1,7 @@
 # Lamb Meatballs
 
 Credit for this recipe goes to Otto Lenghi, but I can't find the source online, I think it was on his blog.
-I make a ton of head of time, freeze them and pull them out as needed.
+I make a ton ahead of time, freeze them and pull them out as needed.
 These are the perfect pair with a shakshuka, I usually place them in the sauce preheated 1-2 minutes
 before serving.
 
